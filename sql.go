@@ -93,7 +93,7 @@ func noSQLQuoteNeeded(a interface{}) bool {
 
 // ConvertToBoundSQL will convert SQL and args to a bound SQL
 func ConvertToBoundSQL(sql string, args []interface{}) (string, error) {
-	buf := StringBuilder{}
+	buf := strings.Builder{}
 	var i, j, start int
 	for ; i < len(sql); i++ {
 		if sql[i] == '?' {
@@ -135,7 +135,7 @@ func ConvertToBoundSQL(sql string, args []interface{}) (string, error) {
 
 // ConvertPlaceholder replaces ? to $1, $2 ... or :1, :2 ... according prefix
 func ConvertPlaceholder(sql, prefix string) (string, error) {
-	buf := StringBuilder{}
+	buf := strings.Builder{}
 	var i, j, start int
 	for ; i < len(sql); i++ {
 		if sql[i] == '?' {
