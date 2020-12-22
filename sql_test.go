@@ -19,6 +19,10 @@ const placeholderConverterSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id 
 const placeholderConvertedSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=$1) AND id=$2 AND c=$3 AND d=$4 AND e=$5 AND f=$6"
 const placeholderBoundSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=1) AND id=2.1 AND c='3' AND d=4 AND e='5' AND f=true"
 
+func TestNoSQLQuoteNeeded(t *testing.T) {
+	assert.False(t, noSQLQuoteNeeded(nil))
+}
+
 func TestPlaceholderConverter(t *testing.T) {
 	var convertCases = []struct {
 		before, after string
