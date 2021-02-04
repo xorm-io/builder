@@ -275,7 +275,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []int{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -285,7 +285,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []int8{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -295,7 +295,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []int16{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -305,7 +305,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []int32{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -315,7 +315,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []int64{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -325,7 +325,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []uint{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -335,7 +335,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []uint8{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -345,7 +345,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []uint16{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -355,7 +355,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []uint32{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -365,7 +365,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []uint64{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -375,17 +375,17 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			In("a", []string{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
 			In("a", []interface{}{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
 			In("a", []MyInt{}),
-			"a IN ()",
+			"0=1",
 			[]interface{}{},
 		},
 		{
@@ -405,7 +405,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []int{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -415,7 +415,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []int8{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -425,7 +425,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []int16{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -435,7 +435,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []int32{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -445,7 +445,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []int64{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -455,7 +455,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []uint{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -465,7 +465,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []uint8{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -475,7 +475,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []uint16{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -485,7 +485,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []uint32{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -495,7 +495,7 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []uint64{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
@@ -505,17 +505,17 @@ func TestBuilderCond(t *testing.T) {
 		},
 		{
 			NotIn("a", []interface{}{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
 			NotIn("a", []string{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
 			NotIn("a", []MyInt{}),
-			"a NOT IN ()",
+			"0=0",
 			[]interface{}{},
 		},
 		{
