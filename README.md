@@ -161,7 +161,7 @@ sql, args, _ := ToSQL(NotNull{"b"})
 	// b IS NOT NULL []
 ```
 
-* `And(conds ...Cond)`, And can connect one or more condtions via And
+* `And(conds ...Cond)`, And can connect one or more conditions via And
 
 ```Go
 import . "xorm.io/builder"
