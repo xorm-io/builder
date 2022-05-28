@@ -41,6 +41,12 @@ func TestBuilderSelectOrderBy(t *testing.T) {
 	assert.EqualValues(t, "SELECT c FROM table1 ORDER BY c DESC", sql)
 	assert.EqualValues(t, 0, len(args))
 	fmt.Println(sql, args)
+
+	sql, args, err = Select("c").From("table1").OrderBy(Expr("CASE WHEN owner_name LIKE ? THEN 0 ELSE 1 END", "a")).ToSQL()
+	assert.NoError(t, err)
+	assert.EqualValues(t, "SELECT c FROM table1 ORDER BY CASE WHEN owner_name LIKE ? THEN 0 ELSE 1 END", sql)
+	assert.EqualValues(t, 1, len(args))
+	fmt.Println(sql, args)
 }
 
 func TestBuilder_From(t *testing.T) {
