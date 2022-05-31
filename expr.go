@@ -19,6 +19,14 @@ func Expr(sql string, args ...interface{}) Cond {
 	return &Expression{sql, args}
 }
 
+func (expr *Expression) Content() string {
+	return expr.sql
+}
+
+func (expr *Expression) Args() []interface{} {
+	return expr.args
+}
+
 // OpWriteTo implements UpdateCond interface
 func (expr *Expression) OpWriteTo(op string, w Writer) error {
 	return expr.WriteTo(w)
