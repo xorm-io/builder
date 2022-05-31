@@ -13,7 +13,7 @@ import (
 type MyInt int
 
 func TestBuilderCond(t *testing.T) {
-	var cases = []struct {
+	cases := []struct {
 		cond Cond
 		sql  string
 		args []interface{}
@@ -612,7 +612,7 @@ func TestSubquery(t *testing.T) {
 
 // https://github.com/go-xorm/xorm/issues/820
 func TestExprCond(t *testing.T) {
-	b := Select("id").From("table1").Where(expr{sql: "a=? OR b=?", args: []interface{}{1, 2}}).Where(Or(Eq{"c": 3}, Eq{"d": 4}))
+	b := Select("id").From("table1").Where(Expr("a=? OR b=?", 1, 2)).Where(Or(Eq{"c": 3}, Eq{"d": 4}))
 	sql, args, err := b.ToSQL()
 	assert.NoError(t, err)
 	assert.EqualValues(t, "table1", b.TableName())

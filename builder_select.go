@@ -132,7 +132,7 @@ func (b *Builder) selectWriteTo(w Writer) error {
 					return err
 				}
 			}
-		case expr:
+		case *Expression:
 			if _, err := fmt.Fprint(w, " ORDER BY "); err != nil {
 				return err
 			}
