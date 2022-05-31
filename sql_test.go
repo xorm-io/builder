@@ -6,25 +6,23 @@ package builder
 
 import (
 	sql2 "database/sql"
-	"fmt"
-	"io/ioutil"
-	"os"
 	"testing"
 
-	"gitea.com/xorm/sqlfiddle"
 	"github.com/stretchr/testify/assert"
 )
 
-const placeholderConverterSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=?) AND id=? AND c=? AND d=? AND e=? AND f=?"
-const placeholderConvertedSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=$1) AND id=$2 AND c=$3 AND d=$4 AND e=$5 AND f=$6"
-const placeholderBoundSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=1) AND id=2.1 AND c='3' AND d=4 AND e='5' AND f=true"
+const (
+	placeholderConverterSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=?) AND id=? AND c=? AND d=? AND e=? AND f=?"
+	placeholderConvertedSQL = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=$1) AND id=$2 AND c=$3 AND d=$4 AND e=$5 AND f=$6"
+	placeholderBoundSQL     = "SELECT a, b FROM table_a WHERE b_id=(SELECT id FROM table_b WHERE b=1) AND id=2.1 AND c='3' AND d=4 AND e='5' AND f=true"
+)
 
 func TestNoSQLQuoteNeeded(t *testing.T) {
 	assert.False(t, noSQLQuoteNeeded(nil))
 }
 
 func TestPlaceholderConverter(t *testing.T) {
-	var convertCases = []struct {
+	convertCases := []struct {
 		before, after string
 		mark          string
 	}{
@@ -105,101 +103,6 @@ func TestSQL(t *testing.T) {
 	newSQL, args, err = ToSQL(1)
 	assert.Error(t, err)
 	assert.EqualValues(t, ErrNotSupportType, err)
-}
-
-type fiddler struct {
-	sessionCode string
-	dbType      int
-	f           *sqlfiddle.Fiddle
-}
-
-func readPreparationSQLFromFile(path string) (string, error) {
-	file, err := os.Open(path)
-	defer file.Close()
-	if err != nil {
-		return "", err
-	}
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		return "", err
-	}
-
-	return string(data), nil
-}
-
-func newFiddler(fiddleServerAddr, dbDialect, preparationSQL string) (*fiddler, error) {
-	var dbType int
-	switch dbDialect {
-	case MYSQL:
-		dbType = sqlfiddle.Mysql5_6
-	case MSSQL:
-		dbType = sqlfiddle.MSSQL2017
-	case POSTGRES:
-		dbType = sqlfiddle.PostgreSQL96
-	case ORACLE:
-		dbType = sqlfiddle.Oracle11gR2
-	case SQLITE:
-		dbType = sqlfiddle.SQLite_WebSQL
-	default:
-		return nil, ErrNotSupportDialectType
-	}
-
-	f := sqlfiddle.NewFiddle(fiddleServerAddr)
-	response, err := f.CreateSchema(dbType, preparationSQL)
-	if err != nil {
-		return nil, err
-	}
-
-	return &fiddler{sessionCode: response.Code, f: f, dbType: dbType}, nil
-}
-
-func (f *fiddler) executableCheck(obj interface{}) error {
-	var sql string
-	var err error
-	switch obj.(type) {
-	case *Builder:
-		sql, err = obj.(*Builder).ToBoundSQL()
-		if err != nil {
-			return err
-		}
-	case string:
-		sql = obj.(string)
-	}
-
-	_, err = f.f.RunSQL(f.dbType, f.sessionCode, sql)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func TestReadPreparationSQLFromFile(t *testing.T) {
-	sqlFromFile, err := readPreparationSQLFromFile("testdata/mysql_fiddle_data.sql")
-	assert.NoError(t, err)
-	fmt.Println(sqlFromFile)
-}
-
-func TestNewFiddler(t *testing.T) {
-	sqlFromFile, err := readPreparationSQLFromFile("testdata/mysql_fiddle_data.sql")
-	assert.NoError(t, err)
-	f, err := newFiddler("", MYSQL, sqlFromFile)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, f.sessionCode)
-}
-
-func TestExecutableCheck(t *testing.T) {
-	sqlFromFile, err := readPreparationSQLFromFile("testdata/mysql_fiddle_data.sql")
-	assert.NoError(t, err)
-	f, err := newFiddler("", MYSQL, sqlFromFile)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, f.sessionCode)
-
-	assert.NoError(t, f.executableCheck("SELECT * FROM table1"))
-
-	err = f.executableCheck("SELECT * FROM table3")
-	assert.Error(t, err)
 }
 
 func TestToSQLInDifferentDialects(t *testing.T) {
