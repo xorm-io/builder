@@ -1,4 +1,4 @@
-module xorm.io/builder
+module github.com/xorm-io/builder
 
 go 1.11
 
